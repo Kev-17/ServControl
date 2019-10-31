@@ -1,5 +1,5 @@
 
-/*  ServControl - v0.1.0.00-Beta  -------*
+/*  ServControl - v0.1.0.00  ------------*
  * Bot Discord de modération               *
  * -----------------                       *
  * K ©2019 ServControl | VScode            *
