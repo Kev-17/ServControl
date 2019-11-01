@@ -9,10 +9,10 @@
 
 class Help {
 
-  static run($SC, $message, $args) {
-    const prefix = $SC.settings.prefix;
+  static run($SC, $message, $args, $settings) {
+    const prefix = $settings.prefix;
     const infos = `__**Help**__\n`
-      + `Prefix: ${$SC.settings.prefix}\n\n`
+      + `Prefix: ${prefix}\n\n`
       + `**User Commands**\n`
       + `\`\`\``
       + `help   : affiche toutes les commandes\n`
@@ -27,7 +27,7 @@ class Help {
     if(!cmd) { $message.delete(); return $message.author.send(infos); }
     if(cmd === `help`) return $message.channel.send(`Commande invalide. \`help\` ne contient pas de commande 'help'. Voir \`${prefix}help\``);
     if($SC.hasCommand(cmd)) {
-      const helpCmd = $SC.getCommand(cmd).help($SC.settings.prefix);
+      const helpCmd = $SC.getCommand(cmd).help(prefix);
       const helpTxt = `${helpCmd.name}\n`
         + `\`\`\``
         + `${helpCmd.description}\n`

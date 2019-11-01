@@ -9,31 +9,22 @@
 
 
 const fs = require(`fs`);
-const { TOKEN, PREFIX } = require(`./config.js`);
 const { Client, Collection } = require(`discord.js`);
+const DataManager = require(`./util/DataManager.js`);
+const config = require(`./private/config.js`);
 
 
 class ServControl {
 
   constructor() {
     this.client = new Client({ disableEveryone: true });
-
-    // Default Settings Bot
-    this.config = {
-      token: TOKEN,
-      prefix: PREFIX
-    };
-
-    // Settings Bot
-    this.settings = {
-      prefix: this.config.prefix
-    };
+    this.database = new DataManager();
 
     // Loading Events
     fs.readdir(`./events/`, ($err, $files) => {
       if($err) console.log(`Erreur dans le dossier './events/' : \n ${$err}`);
       $files.forEach($file => {
-        if(!$file.endsWith(`.js`)) return undefined;
+        if(!$file.endsWith(`.js`)) return;
         const event = require(`./events/${$file}`);
         const eventName = $file.split(`.`)[0];
         this.client.on(eventName, event.bind(null, this));
@@ -49,14 +40,14 @@ class ServControl {
     fs.readdir(`./userCommands/`, ($err, $files) => {
       if($err) console.log(`Erreur lors du chargement des commandes utilisateurs : \n ${$err}`);
       $files.forEach($file => {
-        if(!$file.endsWith(`.js`)) return undefined;
+        if(!$file.endsWith(`.js`)) return;
         let cmd = $file.split(`.`)[0];
         this.userCommands.set(cmd, require(`./userCommands/${$file}`));
       });
     });
 
     // Connecting Client
-    this.client.login(this.config.token);
+    this.client.login(config.TOKEN);
   }
 
 
